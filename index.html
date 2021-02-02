@@ -45,19 +45,16 @@
     </div>
 <br>
     <div id="forecastcards" class="card-group">
-        <!-- <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-            <div class="card-header">
-                Date</div>
-            <div class="card-body">
-                <p class="card-text">insert forecast</p>
-            </div>
-        </div> -->
+      
 
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-var cities = [];
+
+
+    var cities = []; 
+    
 
 $("#searchbtn").on("click", function(event){
 event.preventDefault();
@@ -79,10 +76,18 @@ var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityChosen 
     var longitude = response.coord.lon;
     var latitude = response.coord.lat;
     var iconURL = "http://openweathermap.org/img/wn/" + weatherEmoji + "@2x.png";
-     
-    $("#cityname").text(cityName);
+
+    var today = new Date();
+
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    $("#iconspot").empty();
+
+     cities.push(cityName);
+     console.log(cities);
+     localStorage.setItem("cities", JSON.stringify(cities));
+    $("#cityname").text(cityName + "     ~/////~     " + date);
     $("<img>").attr("src", iconURL).appendTo("#iconspot");
-    $("#tempspan").text(cityTempF + "F   ///   " + cityTempK + "K");
+    $("#tempspan").text(cityTempF.toFixed(2) + "F   ///   " + cityTempK + "K");
     $("#humidspan").text(cityHumidity + "%");
     $("#windspan").text(cityWind + "mph");
     $("<button>", {text: cityName}).attr("data-name", cityName).addClass("btn btn-sm btn-outline-secondary").appendTo("#newbuttons");
@@ -98,19 +103,22 @@ var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityChosen 
             method: "GET"
         }).then(function(response){
             console.log(response);
+            console.log(date);
             var futureForecast = response.daily;
+            $(".card-group").empty();
             for (var i = 0; i < 5; i++) {
-                var futureDate = futureForecast[i].dt;
                 var futureTemp =(futureForecast[i].temp.day - 273.15) * 1.8 + 32;
                 var futureIcon = futureForecast[i].weather[0].icon;
                 var futureHumidity = futureForecast[i].humidity;
                 var iconURLfuture = "http://openweathermap.org/img/wn/" + futureIcon + "@2x.png";
+                var futureDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + (today.getDate() + 1 + i);
+
 
                 console.log(futureDate, futureTemp.toFixed(2), futureIcon, futureHumidity)
                 
                 var dailyCard = $("<div>").addClass("card text-white bg-primary mb-3");
                 $("<p>", {text: "Date: " + futureDate}).appendTo(dailyCard);
-                $("<p>", {text: "Temp F: " + futureTemp.toFixed(2) + "Degrees"}).appendTo(dailyCard);
+                $("<p>", {text: "Temp F: " + futureTemp.toFixed(2) + " Degrees"}).appendTo(dailyCard);
                 $("<p>", {text: "Humidity: " + futureHumidity + "%"}).appendTo(dailyCard);
                 $("<img>").attr("src", iconURLfuture).appendTo(dailyCard);
                 $(".card-group").append(dailyCard);
@@ -124,8 +132,6 @@ var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityChosen 
     
 
 })
-
-
 
     </script>
 </body>
