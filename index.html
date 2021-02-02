@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+    <div class="container-fluid">
+        <h1>Weather Forecast</h1>
+    </div>
+    </header>
+
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <form class="d-flex">
+                <input 
+                id="input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button id="searchbtn" class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div id="newbuttons" style="float: right;">
+                <button class="btn btn-sm btn-outline-secondary" type="button">London</button>
+                <button class="btn btn-sm btn-outline-secondary" type="button">London</button>
+            </div>
+        </div>
+    </nav>
+    <br>
+
+
+    <div class="card bg-success">
+        <div class="card-header">
+            <h3 id=cityname >CITY 🌤</h3>
+            <div id=iconspot></div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Temperature: <span id="tempspan"></span></li>
+            <li class="list-group-item">Humidity: <span id="humidspan"></span></li>
+            <li class="list-group-item">Wind Speed: <span id=
+                "windspan"></span></li>
+        </ul>
+    </div>
+<br>
+    <div id=forecastcards>
+        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+            <div class="card-header">Date</div>
+            <div class="card-body">
+                <p class="card-text">insert forecast</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+var cities = [];
+
+$("#searchbtn").on("click", function(event){
+event.preventDefault();
+var cityChosen = $("#input").val();
+var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&appid=3d645694f7268bef173de0e2436e68de";
+
+// calling the API using AJAX for single day forecate
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response){
+        console.log(response);
+    var cityName = response.name;
+    var cityTempK = response.main.temp;
+    var cityTempF = (cityTempK - 273.15) * 1.8 + 32;
+    var cityHumidity = response.main.humidity;
+    var weatherEmoji = response.weather[0].icon;
+    var cityWind = response.wind.speed;
+    var iconURL = "http://openweathermap.org/img/wn/10d@2x.png";
+     
+    $("#cityname").text(cityName);
+    $("<img>").attr("src", iconURL).appendTo("#iconspot");
+    $("#tempspan").text(cityTempF + "F   ///   " + cityTempK + "K");
+    $("#humidspan").text(cityHumidity + "%");
+    $("#windspan").text(cityWind + "mph");
+    $("<button>", {text: cityName}).attr("date-name", cityName).addClass("btn btn-sm btn-outline-secondary").appendTo("#newbuttons");
+    });
+
+
+
+})
+
+
+
+    </script>
+</body>
+</html>

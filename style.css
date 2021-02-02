@@ -1,0 +1,9 @@
+* {
+  box-sizing: border-box;
+}
+header {
+  text-align: center;
+  width: auto;
+  background-color: darkcyan;
+  padding: 10px;
+}
