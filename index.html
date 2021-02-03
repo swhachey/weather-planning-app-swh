@@ -14,12 +14,12 @@
         <h1>Weather Forecast</h1>
     </div>
     </header>
-
-    <nav class="navbar navbar-light bg-light">
+<br>
+    <nav class="navbar navbar-light bg-dark">
         <div class="container-fluid">
             <form class="d-flex">
                 <input 
-                id="input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                id="input" class="form-control me-2" type="search" placeholder="Enter City Here..." aria-label="Search">
                 <button id="searchbtn" class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <div id="newbuttons" style="float: right;">
@@ -33,7 +33,7 @@
 
     <div class="card bg-success">
         <div class="card-header">
-            <h3 id=cityname >CITY 🌤</h3>
+            <h3 id=cityname >🌤</h3>
             <div id=iconspot></div>
         </div>
         <ul class="list-group list-group-flush">
@@ -54,14 +54,16 @@
 
 
     var cities = []; 
-    
+    var lastSearchedCities = JSON.parse(localStorage.getItem("cities"));
+    var lastSearchedCity = lastSearchedCities[0];
 
+    
 $("#searchbtn").on("click", function(event){
 event.preventDefault();
 var cityChosen = $("#input").val();
 var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityChosen + "&appid=3d645694f7268bef173de0e2436e68de";
 
-// calling the API using AJAX for single day forecate
+// calling the API using AJAX for single day forecast
     $.ajax({
         url: queryURL,
         method: "GET"
@@ -202,8 +204,9 @@ var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityChosen 
      
   
 })
+ 
 
-   
+
     </script>
 </body>
 </html>

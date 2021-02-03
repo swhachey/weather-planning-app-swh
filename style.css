@@ -6,6 +6,23 @@
 header {
   text-align: center;
   width: auto;
-  background-color: darkcyan;
+  background-color: #4444dd;
   padding: 10px;
+  margin-left: 250px;
+  margin-right: 250px;
+  filter: drop-shadow(10px 10px 4px black);
+
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+img {
+  width: 50px;
+  height: 50px;
+}
+.card {
+  filter: drop-shadow(10px 10px 4px black);
+}
+.navbar {
+  filter: drop-shadow(10px 10px 4px black);
+  margin-left: 100px;
+  margin-right: 100px;
 }
